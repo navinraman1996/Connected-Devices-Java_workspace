@@ -8,8 +8,9 @@ import java.util.logging.Logger;
 import com.labbenchstudios.edu.connecteddevices.common.BaseDeviceApp;
 import com.labbenchstudios.edu.connecteddevices.common.DeviceApplicationException;
 
+
 /**
- *
+ *This class extends BaseDeviceApp
  */
 public class Module05App extends BaseDeviceApp
 {
@@ -19,12 +20,20 @@ public class Module05App extends BaseDeviceApp
 		Logger.getLogger(Module05App.class.getSimpleName());
 	
 	/**
+	 * This main method is used to start the application 
+	 * and stop the application
+	 * 
 	 * @param args
 	 */
 	public static void main(String[] args)
 	{
-		Module05App app = new Module05App(Module05App.class.getSimpleName(), args);
-		app.startApp();
+		Module05App app = new Module05App();
+		try {
+			app.start();
+			app.stop();
+		} catch (DeviceApplicationException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	// private var's
@@ -33,7 +42,7 @@ public class Module05App extends BaseDeviceApp
 	// constructors
 	
 	/**
-	 * Default.
+	 * Default Construction
 	 * 
 	 */
 	public Module05App()
@@ -44,7 +53,7 @@ public class Module05App extends BaseDeviceApp
 	/**
 	 * Constructor.
 	 * 
-	 * @param appName
+	 * @param appName: name of the Application
 	 */
 	public Module05App(String appName)
 	{
@@ -54,7 +63,7 @@ public class Module05App extends BaseDeviceApp
 	/**
 	 * Constructor.
 	 * 
-	 * @param appName
+	 * @param appName: name of the Application
 	 * @param args
 	 */
 	public Module05App(String appName, String[] args)
@@ -66,12 +75,14 @@ public class Module05App extends BaseDeviceApp
 	
 	/* (non-Javadoc)
 	 * @see com.labbenchstudios.edu.connecteddevices.common.BaseDeviceApp#start()
+	 * 
+	 * calls the demo method in the TempManaementApp
 	 */
 	@Override
 	protected void start() throws DeviceApplicationException
 	{
 		_Logger.info("Hello - module05 here!");
-		
+		TempManagementApp.demo();
 	}
 	
 	/* (non-Javadoc)
