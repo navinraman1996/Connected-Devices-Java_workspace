@@ -1,5 +1,6 @@
 package schooldomain.studentname.connecteddevices.common;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /*
@@ -125,14 +126,24 @@ public class SensorData {
 	}
 
 	//This method is used to display all the sensor data values
+	//@Override
+	//public String toString() {
+	//	String string = "\nTime: " + this.getTime() + "\n"+
+	//			"\nCURRENT TEMPERATURE VALUE: " + this.getCurValue() + degree + "C" +
+	//			"\nAverage Temperature Value: " + this.getAvgValue() + degree + "C" +
+	//			"\nMinimum Temperature Value: " + this.getMinValue() + degree + "C" +
+	//			"\nMaximum Temperature Value: " + this.getMaxValue() + degree + "C" + "\n";
+	//	return string;
+	//}
+	
 	@Override
 	public String toString() {
 		String string = "\nTime: " + this.getTime() + "\n"+
-				"\nCURRENT TEMPERATURE VALUE: " + this.getCurValue() + degree + "C" +
-				"\nAverage Temperature Value: " + this.getAvgValue() + degree + "C" +
-				"\nMinimum Temperature Value: " + this.getMinValue() + degree + "C" +
-				"\nMaximum Temperature Value: " + this.getMaxValue() + degree + "C" + "\n";
-		return string;
+				"\ncurValue: " + this.getCurValue() +
+				"\navgValue: " + this.getAvgValue() +
+				"\nminValue: " + this.getMinValue() +
+				"\nmaxValue: " + this.getMaxValue() + "\n";
+				return string;
 	}
 	
 	//This method is used for increment in samplecount value
@@ -140,4 +151,33 @@ public class SensorData {
 	{
 		this.setSampleCount(this.getSampleCount()+1);	
 	}
+	
+	/*
+	 * Updates the timestamp to current time
+	 */
+	public void updateTimeStamp() {
+		this.time = new SimpleDateFormat("yyyy.MM.dd HH:mm.ss").format(new Date());
+	}
+	
+	/*
+	 * Function adds current value to calculate average value
+	 * @param val - Current sensor value
+	 */
+	public void updateValue(float val) {
+		updateTimeStamp();
+		++this.sampleCount;
+		this.curValue = (double) val;
+		this.totValue += val;
+		if (this.curValue < this.minValue) {
+			this.minValue = this.curValue;
+		}
+		if (this.curValue > this.maxValue) {
+			this.maxValue = this.curValue;
+		}
+		if (this.totValue != 0 && this.sampleCount > 0) {
+			this.avgValue = this.totValue / this.sampleCount;
+		}
+	}
+	
+
 }
