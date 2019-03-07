@@ -59,10 +59,12 @@ public class MqttSubClientTestApp {
 			String message = MqttClientConnector.getMessag();
 			logger.info("Received Json Data\n");
 			System.out.println("Received Json Message is :" + "\n" + message + "\n");
+			
 			DataUtil data = new DataUtil();								
 			SensorData sensor = data.JsonToSensorData(message,null);
 			logger.info("Printing the Sensor Data:\n");
 			System.out.println("After the Json data to Sensor data Conversion:\n" + sensor);
+			
 			String json = data.SensorDataToJson(sensor);
 			logger.info("Printing the Json Data:\n");
 			System.out.println("After Sensor data to Json data Conversion:\n" + json);
