@@ -50,69 +50,73 @@ public class TempResourceHandler extends CoapResource{
 	}
 	
 	/**
-	 * This method responds to a POST request on the resource
+	 * This method is used to respond to the POST request on the resource
 	 */
 	@Override
 	public void handlePOST(CoapExchange exchange)
 	{
 		if(data != null)
 		{
-			System.out.println("Object already exists. Sending BAD_REQUEST in response to POST request from " + exchange.getSourceAddress());
-			exchange.respond(ResponseCode.BAD_REQUEST, "Data object already exists", MediaTypeRegistry.TEXT_PLAIN);
+			System.out.println("Object is already exist. Sending the BAD_REQUEST in response to the POST request from " + exchange.getSourceAddress());
+			exchange.respond(ResponseCode.BAD_REQUEST, "Data object is already exist", MediaTypeRegistry.TEXT_PLAIN);
 		}
 		else
 		{
 			String jsonData = new String(exchange.getRequestPayload());
 			
-			System.out.println("Received JSON in POST request from " + exchange.getSourceAddress());
+			System.out.println("Received JSON data in POST request from " + exchange.getSourceAddress());
 			System.out.println(jsonData);
 			
 			data = new SensorData(30.0,0.0,"time","Temperature");
-			//If data is null, then initialize it from the request payload
-			dat.JsonToSensorData(jsonData,null);
-			exchange.respond(ResponseCode.CREATED, "Data object created", MediaTypeRegistry.TEXT_PLAIN);
 			
+			//If the data is null, then initialize it from the request payload
+			dat.JsonToSensorData(jsonData,null); 
+			exchange.respond(ResponseCode.CREATED, "Data object is created", MediaTypeRegistry.TEXT_PLAIN);
 		}
 	}
 	
 	/**
-	 * This method responds to a PUT request on the resource
-	 * 
+	 * This method is used to respond to the PUT request on the resource
 	 */
 	@Override
 	public void handlePUT(CoapExchange exchange)
 	{
 		if(data == null)
 		{			
-			exchange.respond(ResponseCode.NOT_FOUND, "Data object needs to be initialized", MediaTypeRegistry.TEXT_PLAIN);
+			exchange.respond(ResponseCode.NOT_FOUND, "The Data object needs to be initialized", MediaTypeRegistry.TEXT_PLAIN);
 		}
 		else
 		{
 			String jsonData = new String(exchange.getRequestPayload());
 			
-			System.out.println("Received JSON in PUT request from " + exchange.getSourceAddress());
+			System.out.println("Received the JSON data in PUT request from " + exchange.getSourceAddress());
 			System.out.println(jsonData);
 						
-			dat.JsonToSensorData(jsonData,null); //Update the SensorData object from the request payload
-			exchange.respond(ResponseCode.CHANGED, "Data object updated", MediaTypeRegistry.TEXT_PLAIN);
-			
+			//Updating the SensorData object from the request payload
+			dat.JsonToSensorData(jsonData,null); 
+			exchange.respond(ResponseCode.CHANGED, "The Data object is updated", MediaTypeRegistry.TEXT_PLAIN);
 		}
 	}
 	
 	/**
-	 * This method is used to respond to a DELETE request on the resource
+	 * This method is used to respond to the DELETE request on the resource.
 	 */
 	@Override
 	public void handleDELETE(CoapExchange exchange)
 	{
 		if(data == null)
 		{
-			exchange.respond(ResponseCode.BAD_REQUEST, "Data object doesn't exist", MediaTypeRegistry.TEXT_PLAIN);
+			exchange.respond(ResponseCode.BAD_REQUEST, "ThisS Data object doesn't exist", MediaTypeRegistry.TEXT_PLAIN);
 		}
 		else
 		{
-			System.out.println("Setting object to null in response to DELETE request from " + exchange.getSourceAddress());
-			data = null; //Set the SensorData object to null, subsequent GET requests will return an error until a POST request is made
+			System.out.println("Setting the object to null in response to DELETE request from " + exchange.getSourceAddress());
+			
+			/**
+			 * Setting the SensorData object to null, subsequent GET requests
+			 * will return an error until a POST request is made
+			 */
+			data = null; 
 			exchange.respond(ResponseCode.DELETED, "Data object deleted", MediaTypeRegistry.TEXT_PLAIN);
 		}	
 	}
