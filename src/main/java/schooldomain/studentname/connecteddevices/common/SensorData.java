@@ -33,6 +33,7 @@ public class SensorData {
 		this.minValue	= minValue;
 		this.time 		= time;
 		this.name 		= name;
+		this.totValue 	= 0.00;
 	}
 
 	//@return : returns the current temp value
@@ -178,6 +179,4 @@ public class SensorData {
 			this.avgValue = this.totValue / this.sampleCount;
 		}
 	}
-	
-
 }
